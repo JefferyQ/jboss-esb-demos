@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.highview.com/types" elementFormDefault="qualified"
+           xmlns:tns="http://www.highview.com/types" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:simpleType name="TSimpleEmail">
+        <xs:restriction base="xs:token">
+            <xs:pattern value="[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:complexType name="TMemberRegistration">
+        <xs:sequence>
+            <xs:element name="name" type="xs:token"/>
+            <xs:element name="email" type="tns:TSimpleEmail"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="member-registration" type="tns:TMemberRegistration"/>
+
+
+</xs:schema>
+

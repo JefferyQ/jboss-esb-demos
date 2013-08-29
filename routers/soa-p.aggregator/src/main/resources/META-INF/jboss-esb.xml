@@ -1,0 +1,116 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jbossesb xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          parameterReloadSecs="5">
+
+
+    <providers>
+
+        <jms-provider name="JBossMQ" connection-factory="ConnectionFactory">
+
+            <jms-bus busid="mainChannel">
+                <jms-message-filter dest-type="QUEUE" dest-name="queue/aggregator/Main"/>
+            </jms-bus>
+
+            <jms-bus busid="aggregatorChannel">
+                <jms-message-filter dest-type="QUEUE" dest-name="queue/aggregator/AggregatorService"/>
+            </jms-bus>
+        </jms-provider>
+    </providers>
+
+
+    <services>
+
+
+        <service category="aggregatorDemo" name="main" description="Aggregator Demo Main Service">
+
+            <listeners>
+                <jms-listener name="JMS-ESB" busidref="mainChannel"/>
+            </listeners>
+
+            <actions mep="OneWay">
+                <action name="println" class="org.jboss.soa.esb.actions.SystemPrintln">
+                    <property name="message"
+                              value="initial incoming message--------------------------------------------"/>
+                    <property name="printfull" value="true"/>
+                </action>
+                <action name="routeAction" class="org.jboss.soa.esb.actions.StaticRouter">
+                    <property name="destinations">
+                        <route-to service-category="aggregatorDemo"
+                                  service-name="fooService"/>
+
+
+                        <route-to service-category="aggregatorDemo"
+                                  service-name="barService"/>
+                    </property>
+                </action>
+            </actions>
+        </service>
+
+
+        <service category="aggregatorDemo" name="fooService" description="" invmScope="GLOBAL">
+            <actions mep="OneWay">
+                <action name="set" class="demo.SetPayloadAction">
+                    <property name="text" value="from foo service"/>
+                    <property name="set-payload-location" value="foo-key"/>
+                </action>
+                <action name="route" class="org.jboss.soa.esb.actions.StaticRouter">
+
+                    <property name="destinations">
+                        <route-to destination-name="aggregatorService"
+                                  service-category="aggregatorDemo"
+                                  service-name="finalService"/>
+                    </property>
+                </action>
+
+            </actions>
+        </service>
+
+        <service category="aggregatorDemo" name="barService" description="" invmScope="GLOBAL">
+            <actions mep="OneWay">
+                <action name="set" class="demo.SetPayloadAction">
+                    <property name="text" value="from bar service"/>
+                    <property name="set-payload-location" value="bar-key"/>
+                </action>
+                <action name="route" class="org.jboss.soa.esb.actions.StaticRouter">
+
+                    <property name="destinations">
+                        <route-to destination-name="aggregatorService"
+                                  service-category="aggregatorDemo"
+                                  service-name="finalService"/>
+                    </property>
+                </action>
+            </actions>
+
+        </service>
+
+        <service category="aggregatorDemo" name="finalService" description="">
+            <listeners>
+                <jms-listener name="JMS-ESB" busidref="aggregatorChannel"/>
+            </listeners>
+            <actions mep="OneWay">
+
+
+                <action name="println1" class="org.jboss.soa.esb.actions.SystemPrintln">
+                    <property name="message" value="initial message at final service"/>
+                    <property name="printfull" value="true"/>
+                </action>
+                <action class="org.jboss.soa.esb.actions.Aggregator" name="Aggregator">
+                    <property name="timeoutInMillis" value="60000"/>
+                </action>
+
+
+                <action name="println2" class="org.jboss.soa.esb.actions.SystemPrintln">
+                    <property name="message"
+                              value="after aggregation---------------------------------------------------"/>
+                    <property name="printfull" value="true"/>
+                </action>
+            </actions>
+        </service>
+
+
+    </services>
+
+
+</jbossesb>

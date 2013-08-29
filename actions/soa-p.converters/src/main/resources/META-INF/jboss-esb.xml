@@ -1,0 +1,68 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jbossesb xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          parameterReloadSecs="5">
+    <providers>
+        <http-provider name="http-provider">
+            <http-bus busid="http-bus"/>
+        </http-provider>
+    </providers>
+
+    <services>
+        <service category="demo" name="convertService" description="Simple JBOSS ESB Demo"
+                 invmScope="GLOBAL">
+            <listeners>
+                <http-gateway name="demo-listener" busidref="http-bus"
+                              urlPattern="test/*" payloadAs="BYTES">
+                </http-gateway>
+            </listeners>
+
+            <actions mep="RequestResponse">
+                <action name="incoming" class="demo.ConvertedLogger">
+                    <property name="text" value="incoming"/>
+                </action>
+
+                <action name="convertToText"
+                        class="org.jboss.soa.esb.actions.converters.ByteArrayToString">
+                    <property name="encoding" value="utf-32"/>
+                </action>
+
+               <action name="convertedToText" class="demo.ConvertedLogger">
+                    <property name="text" value="after converted to text"/>
+                </action>
+              <action name="invoke"
+                      class="org.jboss.soa.esb.actions.converters.ObjectInvoke">
+                <property name="class-processor" value="demo.MyConverter"/>
+                <property name="class-method" value="foo"/>
+
+
+              </action>
+
+
+              <action name="convertedToObject" class="demo.ConvertedLogger">
+                <property name="text" value="after converted to Object"/>
+              </action>
+
+
+              <action name="transform"
+                      class="org.jboss.soa.esb.actions.converters.ObjectToXStream">
+                <property name="namespaces">
+                  <namespace namespace-uri="urn:demo" local-part="my-message"/>
+                </property>
+                <property name="aliases">
+                  <alias name="my-message" class="demo.MyMsg"/>
+                </property>
+              </action>
+
+              <action name="xslt"
+                      class="org.jboss.soa.esb.actions.transformation.xslt.XsltAction">
+                <property name="templateFile" value="/etc/demo.xslt"/>
+              </action>
+
+
+
+            </actions>
+        </service>
+    </services>
+</jbossesb>

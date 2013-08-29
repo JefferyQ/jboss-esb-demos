@@ -1,0 +1,41 @@
+<Envelope xmlns="">
+    <Header
+            xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:jbossesb="http://schemas.jboss.com/ws/2007/01/jbossesb">
+        <wsa:To>jms:127.0.0.1:1099#queue/demoJMS_esb</wsa:To>
+        <wsa:ReplyTo>jms:127.0.0.1:1099#queue/demoJMS_esb_reply</wsa:ReplyTo>
+        <wsa:MessageID>e3154654-d2a4-4e38-bdde-c2091ffbf0df</wsa:MessageID>
+
+        <jbossesb:java.naming.factory.initial >org.jnp.interfaces.NamingContextFactory</jbossesb:java.naming.factory.initial>
+        <jbossesb:java.naming.provider.url >127.0.0.1:1099</jbossesb:java.naming.provider.url>
+        <jbossesb:java.naming.factory.url.pkgs >org.jnp.interfaces</jbossesb:java.naming.factory.url.pkgs>
+
+        <jbossesb:destination-type >queue</jbossesb:destination-type>
+        <jbossesb:destination-name >queue/demoJMS_esb</jbossesb:destination-name>
+        <jbossesb:specification-version >1.1</jbossesb:specification-version>
+        <jbossesb:connection-factory >ConnectionFactory</jbossesb:connection-factory>
+        <jbossesb:persistent >true</jbossesb:persistent>
+        <jbossesb:acknowledge-mode >AUTO_ACKNOWLEDGE</jbossesb:acknowledge-mode>
+        <jbossesb:transacted >false</jbossesb:transacted>
+        <jbossesb:type >urn:jboss/esb/epr/type/jms</jbossesb:type>
+
+    </Header>
+    <Context/>
+    <Body>
+        <Content>
+            <Key>YQ==</Key>
+            <Value>
+                <marshalunmarshal>
+                    <plugin-type>urn:xml/marshalunmarshal/plugin/serialization</plugin-type>
+                    rO0ABXQACUhpIHRoZXJlIQ==
+                </marshalunmarshal>
+            </Value>
+        </Content>
+    </Body>
+    <Attachment/>
+    <Properties>
+        <Property>
+            <Key>Z2V0LXBheWxvYWQtbG9jYXRpb24=</Key>
+            <Value>rO0ABXQAAWE=</Value>
+        </Property>
+    </Properties>
+</Envelope>

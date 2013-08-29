@@ -1,0 +1,43 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jbossesb xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          parameterReloadSecs="5">
+
+
+    <providers>
+
+        <jms-provider name="JBossMQ" connection-factory="ConnectionFactory">
+            <jms-bus busid="demoJMSESBChannel">
+                <jms-message-filter dest-type="QUEUE"
+                                    dest-name="queue/demoEJB_esb"/>
+            </jms-bus>
+        </jms-provider>
+    </providers>
+
+    <services>
+        <service category="demo" name="ejbService" description="Simple JBOSS ESB Demo" invmScope="GLOBAL">
+            <listeners>
+                <jms-listener name="JMS-ESB" busidref="demoJMSESBChannel"/>
+            </listeners>
+            <actions mep="OneWay">
+                <action name="EJBTest" class="org.jboss.soa.esb.actions.EJBProcessor">
+                    <property name="ejb3" value="true"/>
+                    <property name="jndi-name" value="MemberServices"/>
+                    <property name="initial-context-factory"
+                              value="org.jnp.interfaces.NamingContextFactory"/>
+                    <property name="provider-url" value="localhost:1099"/>
+                    <property name="method" value="register"/>
+                    <property name="ejb-params">
+                        <!-- arguments of the operation and where to find them in the message -->
+                        <arg0 type="java.lang.String">username</arg0>
+                        <arg1 type="java.lang.String">password</arg1>
+                    </property>
+                </action>
+
+            </actions>
+        </service>
+    </services>
+
+
+</jbossesb>

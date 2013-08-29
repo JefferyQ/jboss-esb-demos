@@ -1,0 +1,33 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jbossesb xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xmlns:xi="http://www.w3.org/2001/XInclude"
+          xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          parameterReloadSecs="5">
+
+
+    <providers>
+        <schedule-provider name="demo">
+            <cron-schedule scheduleid="cron-demo"
+                           cronExpression="0 * * * * ?" />
+        </schedule-provider>
+    </providers>
+    <services>
+        <service category="demo" name="scheduleService"
+                 description="Simple JBOSS ESB Schedule Demo" >
+            <listeners>
+                <scheduled-listener name="demo-listener"
+                                    scheduleidref="cron-demo"
+                                   event-processor="demo.DemoScheduledEventMessageComposer"/>
+            </listeners>
+
+            <actions mep="OneWay">
+                <action name="println"  class="org.jboss.soa.esb.actions.SystemPrintln" >
+                    <property name="get-payload-location" value="org.jboss.soa.esb.message.payload.text"/>
+                </action>
+            </actions>
+        </service>
+    </services>
+
+
+</jbossesb>

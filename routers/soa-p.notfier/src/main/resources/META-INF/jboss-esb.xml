@@ -1,0 +1,46 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jbossesb xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          parameterReloadSecs="5">
+    <providers>
+        <http-provider name="http-provider">
+            <http-bus busid="http-bus"/>
+        </http-provider>
+    </providers>
+
+    <services>
+        <service category="demo" name="notifierService" description="Simple JBOSS ESB Demo" invmScope="GLOBAL">
+            <listeners>
+                 <http-gateway name="demo-listener" busidref="http-bus"
+                              urlPattern="test/*" payloadAs="STRING">
+                    <!--<asyncResponse statusCode="200"/>-->
+                </http-gateway>
+            </listeners>
+
+            <actions mep="RequestResponse">
+
+                <action name="notify" class="org.jboss.soa.esb.actions.Notifier">
+                   <property name="okMethod" value="notifyOK"/>
+                  <property name="exceptionMethod" value="notifyError"/>
+                    <property name="notification-details">
+                       <NotificationList type="ok">
+                            <target class="NotifyConsole"/>
+                        </NotificationList>
+                        <NotificationList type="err">
+                            <target class="NotifyConsole"/>
+                        </NotificationList>
+                    </property>
+                </action>
+
+
+                <action name="println" class="org.jboss.soa.esb.actions.SystemPrintln"/>
+
+                <action name="incoming" class="demo.MessUp">
+                    <property name="text" value="incoming"/>
+                </action>
+
+            </actions>
+        </service>
+    </services>
+</jbossesb>

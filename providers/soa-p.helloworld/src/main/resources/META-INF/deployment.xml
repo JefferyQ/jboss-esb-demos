@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<jbossesb-deployment>
+    <jmsQueue>echoJMS_gw</jmsQueue>
+    <jmsQueue>echoJMS_esb</jmsQueue>
+</jbossesb-deployment>

@@ -1,0 +1,68 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<jbossesb xmlns="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://anonsvn.labs.jboss.com/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd http://anonsvn.jboss.org/repos/labs/labs/jbossesb/trunk/product/etc/schemas/xml/jbossesb-1.3.0.xsd"
+          parameterReloadSecs="5">
+
+
+  <providers>
+
+    <jms-provider name="JBossMQ" connection-factory="ConnectionFactory">
+
+      <jms-bus busid="demoJMSESBChannel">
+        <jms-message-filter dest-type="QUEUE"
+                            dest-name="queue/DemoJMSProvider"/>
+      </jms-bus>
+
+      <jms-bus busid="demoJMSESBChannelGW">
+        <jms-message-filter dest-type="QUEUE"
+                            dest-name="queue/DemoJMSProviderGW"/>
+      </jms-bus>
+
+
+    </jms-provider>
+
+  </providers>
+
+
+  <services>
+
+
+    <service category="demo" name="jmsService"
+             invmScope="GLOBAL"
+             description="Simple JBOSS ESB Demo">
+
+      <listeners>
+
+        <jms-listener name="JMS-ESB"
+
+                      busidref="demoJMSESBChannel"/>
+        <jms-listener name="JMS-ESBGW"
+
+                      busidref="demoJMSESBChannelGW" is-gateway="true"/>
+
+
+      </listeners>
+
+      <actions mep="RequestResponse">
+          <action class="org.jboss.soa.esb.actions.Notifier" name="route-to-response">
+              <property name="okMethod" value="notifyOK"/>
+              <property name="destinations">
+                  <NotificationList type="OK">
+                      <target class="NotifyQueues">
+                          <queue connection-factory="ConnectionFactory"
+                                 jndiName="queue/DemoJMSProviderGW_reply"/>
+                      </target>
+                  </NotificationList>
+              </property>
+          </action>
+          <action name="println"
+                class="org.jboss.soa.esb.actions.SystemPrintln">
+            <property name="printfull" value="true" />
+        </action>
+      </actions>
+    </service>
+  </services>
+
+
+</jbossesb>

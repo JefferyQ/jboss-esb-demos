@@ -1,0 +1,53 @@
+<!--
+  ~ This file and its source code representation are copyright protected
+  ~ and proprietary to EDC4IT Ltd.
+  ~ This component and source code may be used for instructional and evaluation
+  ~ purposes only. No part of this component or its source code may be sold,
+  ~ transferred, or publicly posted, nor may it be used in a commercial or
+  ~ production environment, without the express written consent of EDC4IT Ltd.
+  ~
+  ~ Copyright (c) 2011 EDC4IT Ltd.
+  -->
+
+<server>
+
+
+  <!--<mbean code="org.jboss.jms.server.destination.QueueService"
+         name="demo.jms.destination:service=Queue,name=demoJMS_gw"
+         xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+  </mbean>-->
+
+    <mbean code="org.jboss.jms.server.destination.QueueService"
+           name="demo.jms.destination:service=Queue,name=DemoJMSProvider"
+           xmbean-dd="xmdesc/Queue-xmbean.xml">
+        <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+        <depends>jboss.messaging:service=PostOffice</depends>
+    </mbean>
+
+    <mbean code="org.jboss.jms.server.destination.QueueService"
+           name="demo.jms.destination:service=Queue,name=DemoJMSProvider_reply"
+           xmbean-dd="xmdesc/Queue-xmbean.xml">
+        <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+        <depends>jboss.messaging:service=PostOffice</depends>
+    </mbean>
+
+
+
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+         name="demo.jms.destination:service=Queue,name=DemoJMSProviderGW"
+         xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+  </mbean>
+
+  <mbean code="org.jboss.jms.server.destination.QueueService"
+         name="demo.jms.destination:service=Queue,name=DemoJMSProviderGW_reply"
+         xmbean-dd="xmdesc/Queue-xmbean.xml">
+    <depends optional-attribute-name="ServerPeer">jboss.messaging:service=ServerPeer</depends>
+    <depends>jboss.messaging:service=PostOffice</depends>
+  </mbean>
+
+
+</server>

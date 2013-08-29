@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<jbossesb-deployment>
+    <depends>demo.jms.destination:service=Queue,name=aggregator.Main</depends>
+    <depends>demo.jms.destination:service=Queue,name=aggregator.AggregatorService</depends>
+    <depends>demo.jms.destination:service=Queue,name=aggregator.AggregatorServiceReply</depends>
+</jbossesb-deployment>
