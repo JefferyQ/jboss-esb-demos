@@ -46,7 +46,7 @@
         <!--***********************************************************************************-->
         <!--**** make sure you set these two properties correct *******************************-->
         <!--***********************************************************************************-->
-        <jbossesb.home>/home/rparree/course/JB431/JB431/student/JB431/opt/jboss-soa-p-5/jboss-as/</jbossesb.home>
+        <jbossesb.home>/home/student/opt/jboss-soa-p-5/jboss-as/</jbossesb.home>
         <server-name>samples</server-name>
         <deploy-dir-name>mydeploy</deploy-dir-name>
         <!--***********************************************************************************-->
