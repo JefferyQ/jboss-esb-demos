@@ -11,7 +11,7 @@
 
             <camel-bus busid="camel-bus">
 
-                <from uri="file:///home/rparree/tmp/camelbox?move=.done"/>
+                <from uri="file:///home/student/tmp/camelbox?move=.done"/>
 
 
 
