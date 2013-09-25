@@ -1,0 +1,12 @@
+package demo;
+
+import demo.Customer;
+
+rule "Is of valid age"
+when
+    $a : Customer( age < 18 )
+then
+    $a.setPass( false );
+end
+
+
