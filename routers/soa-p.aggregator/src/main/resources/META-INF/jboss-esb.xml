@@ -7,6 +7,10 @@
 
     <providers>
 
+        <http-provider name="http-provider">
+            <http-bus busid="http-bus"/>
+        </http-provider>
+
         <jms-provider name="JBossMQ" connection-factory="ConnectionFactory">
 
             <jms-bus busid="mainChannel">
@@ -26,6 +30,10 @@
         <service category="aggregatorDemo" name="main" description="Aggregator Demo Main Service">
 
             <listeners>
+                <http-gateway name="demo-listener" busidref="http-bus"
+                              urlPattern="test/*" payloadAs="STRING">
+                    <asyncResponse statusCode="200"/>
+                </http-gateway>
                 <jms-listener name="JMS-ESB" busidref="mainChannel"/>
             </listeners>
 
@@ -49,11 +57,11 @@
         </service>
 
 
-        <service category="aggregatorDemo" name="fooService" description="" invmScope="GLOBAL">
+        <service category="aggregatorDemo"
+                 name="fooService" description="" invmScope="GLOBAL">
             <actions mep="OneWay">
                 <action name="set" class="demo.SetPayloadAction">
                     <property name="text" value="from foo service"/>
-                    <property name="set-payload-location" value="foo-key"/>
                 </action>
                 <action name="route" class="org.jboss.soa.esb.actions.StaticRouter">
 
@@ -71,7 +79,6 @@
             <actions mep="OneWay">
                 <action name="set" class="demo.SetPayloadAction">
                     <property name="text" value="from bar service"/>
-                    <property name="set-payload-location" value="bar-key"/>
                 </action>
                 <action name="route" class="org.jboss.soa.esb.actions.StaticRouter">
 
@@ -100,12 +107,7 @@
                     <property name="timeoutInMillis" value="60000"/>
                 </action>
 
-
-                <action name="println2" class="org.jboss.soa.esb.actions.SystemPrintln">
-                    <property name="message"
-                              value="after aggregation---------------------------------------------------"/>
-                    <property name="printfull" value="true"/>
-                </action>
+                <action name="set" class="demo.AggregatedMessageProcessor"/>
             </actions>
         </service>
 
