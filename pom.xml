@@ -41,19 +41,20 @@
         <module>routers/soa-p.aggregator</module>
         <module>routers/soa-p.notfier</module>
         <module>actions/soa-p.custom-action</module>
+        <module>actions/soa-p.drools</module>
     </modules>
     <properties>
         <!--***********************************************************************************-->
         <!--**** make sure you set these two properties correct *******************************-->
         <!--***********************************************************************************-->
-        <jbossesb.home>/home/student/opt/jboss-soa-p-5/jboss-as/</jbossesb.home>
+        <jbossesb.home>/home/rparree/course/JB431/JB431/student/JB431/opt/jboss-soa-p-5/jboss-as/</jbossesb.home>
         <server-name>samples</server-name>
         <deploy-dir-name>mydeploy</deploy-dir-name>
         <!--***********************************************************************************-->
-
+        <maven.compiler.source>1.6</maven.compiler.source>
+        <maven.compiler.target>1.6</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jbossesb.esbdeployer.lib>${jbossesb.home}/server/${server-name}/deployers/esb.deployer/lib
-        </jbossesb.esbdeployer.lib>
+        <jbossesb.esbdeployer.lib>${jbossesb.home}/server/${server-name}/deployers/esb.deployer/lib</jbossesb.esbdeployer.lib>
         <jbossesb.deploy>${jbossesb.home}/server/${server-name}/${deploy-dir-name}</jbossesb.deploy>
         <jbossesb.client>${jbossesb.home}/client</jbossesb.client>
         <scala.version>2.10.1</scala.version>
